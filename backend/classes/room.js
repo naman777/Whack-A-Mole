@@ -60,9 +60,14 @@ export class Room {
 
     startGame() {
         this.gameInProgress = true;
+        
+        this.broadcastMessage(JSON.stringify({
+            type: 'game_started',
+        }))
+
         this.timer = setInterval(() => {
             this.updateBoard();
-        }, 2000); 
+        }, 1000); 
 
         setTimeout(() => {
             this.endGame();
@@ -79,24 +84,26 @@ export class Room {
     }
 
     handleUserClick(socket, row, col) {
-        if (this.board.board === 'mole' && !this.board.isMoleClicked(row, col)) {
-            this.board.markMoleAsClicked(row, col);
+        if(this.gameInProgress){    
             const userName = this.usersName[this.users.indexOf(socket)];
-            this.scores[userName] += 10;
-        }
-        else if(this.board.board[row][col] === 'cactus'){
-            const userName = this.usersName[this.users.indexOf(socket)];
-            this.scores[userName] -= 20;
-        }
-        else if(this.board.board[row][col] === 'empty'){
-            const userName = this.usersName[this.users.indexOf(socket)];
-            this.scores[userName] -= 5;
+            if (this.board.board[row][col] === 'mole' && !this.board.isMoleClicked(row, col)) {
+                this.board.markMoleAsClicked(row, col);
+                this.scores[userName] += 10;
+            }
+            else if(this.board.board[row][col] === 'cactus'){
+                this.scores[userName] -= 20;
+            }
+            else if(this.board.board[row][col] === 'empty'){
+                this.scores[userName] -= 5;
+            }
+
+            this.broadcastMessage(JSON.stringify({
+                type: 'update_scores',
+                scores: this.scores,
+                yourScore: this.scores[userName]
+            }));
         }
 
-        this.broadcastMessage(JSON.stringify({
-            type: 'update_scores',
-            scores: this.scores
-        }));
     }
 
     endGame() {

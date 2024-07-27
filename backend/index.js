@@ -34,7 +34,7 @@ wss.on('connection', function connection(ws) {
         if(message.type === CLOSE_ROOM){
             roomManager.closeRoom(message.roomId);
         }
-    
+
     })
 
     ws.on('close', () => {

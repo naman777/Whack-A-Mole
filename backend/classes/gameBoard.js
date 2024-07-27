@@ -33,7 +33,7 @@ class GameBoard {
         do {
             rowCactus = Math.floor(Math.random() * this.board.length);
             colCactus = Math.floor(Math.random() * this.board[0].length);
-        } while (rowCactus === rowMole && colCactus === colMole);
+        } while (rowCactus === row && colCactus === col);
         this.board[rowCactus][colCactus] = 'cactus';
         
 
