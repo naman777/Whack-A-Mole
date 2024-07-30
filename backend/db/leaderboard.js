@@ -13,4 +13,4 @@ const leaderboardSchema = mongoose.Schema({
 })
 
 const Leaderboard = mongoose.model('Leaderboard', leaderboardSchema)
-module.exports = Leaderboard
+export default Leaderboard;
