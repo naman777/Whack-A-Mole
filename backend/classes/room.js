@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import GameBoard from './gameBoard.js';
+import Leaderboard from '../db/leaderboard.js';
 
 export class Room {
     constructor(roomName, socket, userName) {
@@ -107,6 +108,7 @@ export class Room {
     }
 
     endGame() {
+
         clearInterval(this.timer);
         this.gameInProgress = false;
 
@@ -114,5 +116,16 @@ export class Room {
             type: 'end_game',
             scores: this.scores
         }));
+
+        this.usersName.forEach(async (userName) => {
+            const score = this.scores[userName];
+    
+            const user = new Leaderboard({ name: userName,
+                score: score
+            });
+
+            await user.save();
+    
+        })
     }
 }

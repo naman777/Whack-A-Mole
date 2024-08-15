@@ -1,6 +1,9 @@
 import { WebSocketServer } from 'ws';
 import { CLOSE_ROOM, CREATE_ROOM, JOIN_ROOM, START_GAME, CLICK_CELL} from './classes/messages.js';
 import { RoomManager } from './classes/roomManager.js';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -45,5 +48,5 @@ wss.on('connection', function connection(ws) {
 });
 
 
-// mongoose.connect(process.env.MONGO_URL).then(() => console.log('Database connected successfully'))
-//   .catch(err => console.error('Database connection error:', err));
+mongoose.connect(process.env.MONGO_URL).then(() => console.log('Database connected successfully'))
+  .catch(err => console.error('Database connection error:', err));
