@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar'; // Ensure this path is correct
+import Navbar from '../components/Navbar'; 
 import { useParams } from 'react-router-dom';
 import { useWebSocket } from '../hooks/useSocket';
 import GameBoard from '../components/GameBoard';
@@ -39,7 +39,7 @@ const Game = () => {
         };
 
         return () => {
-            socket.onmessage = null; // Clean up on component unmount
+            socket.onmessage = null; 
         };
     }, [socket]);
 
@@ -50,7 +50,7 @@ const Game = () => {
                 setTimeLeft((prevTime) => {
                     if (prevTime <= 1) {
                         clearInterval(timer);
-                        setIsGameStarted(false); // End the game when time runs out
+                        setIsGameStarted(false); 
                         return 0;
                     }
                     return prevTime - 1;
@@ -58,7 +58,7 @@ const Game = () => {
             }, 1000);
         }
 
-        return () => clearInterval(timer); // Cleanup interval on component unmount or game end
+        return () => clearInterval(timer); 
     }, [isGameStarted, timeLeft]);
 
     const onStartGame = () => {
@@ -79,14 +79,19 @@ const Game = () => {
     };
 
     return (
-        <div className='bg-black min-h-screen flex flex-col'>
+        <div className='bg-black min-h-screen flex flex-col overflow-hidden'>
             <Navbar
                 roomId={roomId}
                 userPoints={score}
                 onStartGame={onStartGame}
                 timeLeft={timeLeft}
             />
-            <GameBoard board={board} onTileClick={handleTileClick} />
+            <div className='w-96 h-96'>
+                <GameBoard
+                    board={board}
+                    onTileClick={handleTileClick}
+                    />
+            </div>
         </div>
     );
 };

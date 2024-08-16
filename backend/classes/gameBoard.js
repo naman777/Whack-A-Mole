@@ -1,41 +1,58 @@
 class GameBoard {
-    constructor(rows = 3, cols = 3, moleCount = 3) {
+    constructor(rows = 3, cols = 3, moleCount = 1) {  // Only one mole is needed
         this.rows = rows;
         this.cols = cols;
         this.moleCount = moleCount;
         this.board = this.initializeBoard();
         this.clickedMoles = new Set(); 
+        this.prevMolePosition = null;
+        this.prevCactusPositions = [];
     }
 
     initializeBoard() {
         const board = [];
         for (let i = 0; i < this.rows; i++) {
-            board.push(new Array(this.cols).fill(null));
+            board.push(new Array(this.cols).fill('empty'));
         }
         return board;
+    }
+
+    getRandomPosition(excludePositions) {
+        let row, col;
+        do {
+            row = Math.floor(Math.random() * this.rows);
+            col = Math.floor(Math.random() * this.cols);
+        } while (excludePositions.some(pos => pos.row === row && pos.col === col));
+        return { row, col };
     }
 
     updateBoard() {
         this.clickedMoles.clear(); 
 
+        // Reset the board
         for (let i = 0; i < this.board.length; i++) {
             for (let j = 0; j < this.board[i].length; j++) {
                 this.board[i][j] = 'empty';
             }
         }
 
+        // Mole new position
+        const excludePositions = this.prevCactusPositions.slice();
+        if (this.prevMolePosition) {
+            excludePositions.push(this.prevMolePosition);
+        }
+        const molePosition = this.getRandomPosition(excludePositions);
+        this.board[molePosition.row][molePosition.col] = 'mole';
+        this.prevMolePosition = molePosition;
 
-        const row = Math.floor(Math.random() * this.board.length);
-        const col = Math.floor(Math.random() * this.board[0].length);
-        this.board[row][col] = 'mole';
-
-        let rowCactus, colCactus;
-        do {
-            rowCactus = Math.floor(Math.random() * this.board.length);
-            colCactus = Math.floor(Math.random() * this.board[0].length);
-        } while (rowCactus === row && colCactus === col);
-        this.board[rowCactus][colCactus] = 'cactus';
-        
+        // Cacti new positions
+        const cactusPositions = [];
+        for (let i = 0; i < 2; i++) {
+            const cactusPosition = this.getRandomPosition([molePosition, ...cactusPositions]);
+            this.board[cactusPosition.row][cactusPosition.col] = 'cactus';
+            cactusPositions.push(cactusPosition);
+        }
+        this.prevCactusPositions = cactusPositions;
 
         return this.board;
     }
