@@ -12,6 +12,7 @@ const CreateRoom = () => {
     const socket = useWebSocket();
 
     const handleCreateRoom = async () => {
+        localStorage.setItem("name", usersName);
         socket?.send(JSON.stringify({
             type:"create_room",
             roomName:roomName,

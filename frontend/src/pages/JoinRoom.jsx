@@ -12,6 +12,7 @@ const JoinRoom = () => {
     const socket = useWebSocket();
 
     const handleCreateRoom = async () => {
+        localStorage.setItem("name", usersName);
         socket?.send(JSON.stringify({
             type:"join_room",
             roomId:roomId,
@@ -85,7 +86,7 @@ const JoinRoom = () => {
                     className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md"
                     onClick={handleCreateRoom}
                 >
-                    Create Room
+                    Join Room
                 </button>
             </div>
         </div>

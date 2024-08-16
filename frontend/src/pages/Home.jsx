@@ -25,7 +25,7 @@ const Home = () => {
                     <Rules />
                 </div>
                 <div className="flex-1">
-                    <Leaderboard users={users} />
+                    
                 </div>
             </div>
         </>

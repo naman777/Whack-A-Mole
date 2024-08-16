@@ -16,12 +16,12 @@ const Game = () => {
     const [timeLeft, setTimeLeft] = useState(60);
     const socket = useWebSocket();
     const { roomId } = useParams();
-
+    const [scores, setScores] = useState([]);
+    const name = localStorage.getItem('name');
     useEffect(() => {
         // WebSocket event listener
         socket.onmessage = (event) => {
             const message = JSON.parse(event.data);
-            console.log(message);
 
             if (message.type === "game_started") {
                 setIsGameStarted(true);
@@ -33,8 +33,8 @@ const Game = () => {
             }
 
             if (message.type === "update_scores") {
-                console.log(message.yourScore);
-                setScore(message.yourScore);
+                const points = message.scores.find((user) => user.name === name)?.points;
+                setScores(message.scores);
             }
         };
 
@@ -90,6 +90,7 @@ const Game = () => {
                 <GameBoard
                     board={board}
                     onTileClick={handleTileClick}
+                    scores={scores}
                     />
             </div>
         </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Leaderboard from './Leaderboard';
 
-const GameBoard = ({ board, onTileClick }) => {
+const GameBoard = ({ board, onTileClick,scores }) => {
     const [bgColor, setBgColor] = useState('');
 
     const handleTileClick = (rowIndex, colIndex) => {
@@ -19,7 +19,7 @@ const GameBoard = ({ board, onTileClick }) => {
             className="relative bg-cover bg-center h-screen w-screen overflow-hidden bg-black" 
             style={{ backgroundImage: 'url("/mario-bg.jpg")' }}
         >   <div className='flex justify-start ml-5 mt-6'>
-                <Leaderboard users={["naman","hello"]}/>
+                <Leaderboard scores={scores}/>
             </div>
             <motion.h1
                 className="text-center text-4xl font-bold mb-4"

@@ -8,7 +8,7 @@ export class Room {
         this.name = roomName;
         this.users = [];
         this.usersName = [];
-        this.scores = {};
+        this.scores = [];  // Change scores to an array of objects
         this.board = new GameBoard();
         this.timer = null;
         this.gameDuration = 60; 
@@ -20,8 +20,8 @@ export class Room {
     addUser(socket, userName) {
         this.users.push(socket);
         this.usersName.push(userName);
-        this.scores[userName] = 0; 
-
+        this.scores.push({ name: userName, points: 0 });  // Initialize user score
+        
         socket.send(JSON.stringify({
             type: 'room_joined',
             roomName: this.name,
@@ -39,7 +39,7 @@ export class Room {
         const index = this.users.indexOf(socket);
         if (index !== -1) {
             const userName = this.usersName[index];
-            delete this.scores[userName]; 
+            this.scores = this.scores.filter(score => score.name !== userName);  // Remove user score
 
             this.users.splice(index, 1);
             this.usersName.splice(index, 1);
@@ -64,7 +64,7 @@ export class Room {
         
         this.broadcastMessage(JSON.stringify({
             type: 'game_started',
-        }))
+        }));
 
         this.timer = setInterval(() => {
             this.updateBoard();
@@ -87,28 +87,28 @@ export class Room {
     handleUserClick(socket, row, col) {
         if(this.gameInProgress){    
             const userName = this.usersName[this.users.indexOf(socket)];
+            const userScore = this.scores.find(score => score.name === userName);
+
             if (this.board.board[row][col] === 'mole' && !this.board.isMoleClicked(row, col)) {
                 this.board.markMoleAsClicked(row, col);
-                this.scores[userName] += 10;
+                userScore.points += 10;
             }
             else if(this.board.board[row][col] === 'cactus'){
-                this.scores[userName] -= 20;
+                userScore.points -= 20;
             }
             else if(this.board.board[row][col] === 'empty'){
-                this.scores[userName] -= 5;
+                userScore.points -= 5;
             }
 
             this.broadcastMessage(JSON.stringify({
                 type: 'update_scores',
                 scores: this.scores,
-                yourScore: this.scores[userName]
+                yourScore: userScore.points
             }));
         }
-
     }
 
     endGame() {
-
         clearInterval(this.timer);
         this.gameInProgress = false;
 
@@ -117,15 +117,13 @@ export class Room {
             scores: this.scores
         }));
 
-        this.usersName.forEach(async (userName) => {
-            const score = this.scores[userName];
-    
-            const user = new Leaderboard({ name: userName,
-                score: score
+        this.scores.forEach(async (score) => {
+            const user = new Leaderboard({
+                name: score.name,
+                score: score.points
             });
 
             await user.save();
-    
-        })
+        });
     }
 }
