@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 
 const WebSocketContext = createContext({ socket: null, isConnected: false });
 
-const URL = 'ws://localhost:8080';
+const URL = 'wss://whack-a-mole-hc23.onrender.com';
 
 export const WebSocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
