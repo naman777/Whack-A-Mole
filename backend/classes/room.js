@@ -1,11 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import GameBoard from './gameBoard.js';
-import Leaderboard from '../db/leaderboard.js';
 
 export class Room {
-    constructor(roomName, socket, userName) {
+    constructor( socket, userName) {
         this.id = uuidv4();
-        this.name = roomName;
         this.users = [];
         this.usersName = [];
         this.scores = [];  // Change scores to an array of objects
@@ -13,7 +11,11 @@ export class Room {
         this.timer = null;
         this.gameDuration = 60; 
         this.gameInProgress = false;
-
+        socket.send(JSON.stringify({
+            type: 'room_created',
+            roomName: this.name,
+            roomId: this.id
+        }));
         this.addUser(socket, userName);
     }
 
@@ -117,13 +119,9 @@ export class Room {
             scores: this.scores
         }));
 
-        this.scores.forEach(async (score) => {
-            const user = new Leaderboard({
-                name: score.name,
-                score: score.points
-            });
-
-            await user.save();
+        this.scores.forEach(score => {
+            score.points = 0;
         });
+
     }
 }

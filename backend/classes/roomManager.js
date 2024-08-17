@@ -1,4 +1,3 @@
-import User from "../db/user.js";
 import { Room } from "./room.js";
 
 export class RoomManager {
@@ -8,42 +7,17 @@ export class RoomManager {
         this.socketRoomMap = new Map();
     }
 
-    async createRoom(roomName, socket, usersName, email, mobile) {
-
-       try {
-         const user = new User({
-             name:usersName,
-             email:email,
-             mobile:mobile
-         });
- 
-         await user.save();
-       } catch (error) {
-            socket.send("Invalid user data");
-       }
-
-        const room = new Room(roomName, socket, usersName, email);
+    async createRoom( socket, usersName ) {
+        const room = new Room( socket, usersName);
         this.rooms.push(room);
         this.socketAdminRoomMap.set(socket, room.id);
     }
 
-    async joinRoom(roomId, socket, usersName, email, mobile) {
-
-        try {
-            const user = new User({
-                name:usersName,
-                email:email,
-                mobile:mobile
-            });
-    
-            await user.save();
-        } catch (error) {
-            socket.send("Invalid user data");
-        }
+    async joinRoom(roomId, socket, usersName) {
 
         const room = this.rooms.find((room) => room.id === roomId);
         if (room) {
-            room.addUser(socket, usersName, email);
+            room.addUser(socket, usersName);
             this.socketRoomMap.set(socket, room.id);
         } else {
             socket.send("Invalid Room Id");

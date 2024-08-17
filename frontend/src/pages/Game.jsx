@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useWebSocket } from '../hooks/useSocket';
 import GameBoard from '../components/GameBoard';
 import { CLICK_CELL, START_GAME } from '../hooks/messages';
+import Modal from '../components/Modal';
 
 const Game = () => {
     const [board, setBoard] = useState([
@@ -14,12 +15,13 @@ const Game = () => {
     const [score, setScore] = useState(0);
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [timeLeft, setTimeLeft] = useState(60);
-    const socket = useWebSocket();
+    const {socket} = useWebSocket();
     const { roomId } = useParams();
     const [scores, setScores] = useState([]);
+    const [winner, setWinner] = useState(null); 
     const name = localStorage.getItem('name');
+
     useEffect(() => {
-        // WebSocket event listener
         socket.onmessage = (event) => {
             const message = JSON.parse(event.data);
 
@@ -34,14 +36,31 @@ const Game = () => {
 
             if (message.type === "update_scores") {
                 const points = message.scores.find((user) => user.name === name)?.points;
+                setScore(points);
                 setScores(message.scores);
+            }
+
+            if (message.type === "end_game") {
+                const points = message.scores.find((user) => user.name === name)?.points;
+                setScore(points);
+                setScores(message.scores);
+                
+                const highestScorer = message.scores.reduce((prev, current) => {
+                    return (prev.points > current.points) ? prev : current;
+                });
+                
+
+                setWinner({
+                    name: highestScorer.name,
+                    points: highestScorer.points
+                });
             }
         };
 
         return () => {
             socket.onmessage = null; 
         };
-    }, [socket]);
+    }, [socket, name]);
 
     useEffect(() => {
         let timer;
@@ -62,7 +81,8 @@ const Game = () => {
     }, [isGameStarted, timeLeft]);
 
     const onStartGame = () => {
-        socket.send(JSON.stringify({
+        console.log("Starting game");
+        socket?.send(JSON.stringify({
             type: START_GAME,
             roomId,
         }));
@@ -78,6 +98,10 @@ const Game = () => {
         socket.send(message);
     };
 
+    const closeModal = () => {
+        setWinner(null);
+    };
+
     return (
         <div className='bg-black min-h-screen flex flex-col overflow-hidden'>
             <Navbar
@@ -91,8 +115,14 @@ const Game = () => {
                     board={board}
                     onTileClick={handleTileClick}
                     scores={scores}
-                    />
+                />
             </div>
+            {winner && (
+                <Modal onClose={closeModal}>
+                    <h2 className="text-xl font-bold">Game Over</h2>
+                    <p>{winner.name} won with {winner.points} points!</p>
+                </Modal>
+            )}
         </div>
     );
 };

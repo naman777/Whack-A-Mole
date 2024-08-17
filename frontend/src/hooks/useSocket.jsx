@@ -1,21 +1,26 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-const WebSocketContext = createContext(null);
+const WebSocketContext = createContext({ socket: null, isConnected: false });
 
-const WebSocketProvider = ({ children }) => {
+const URL = 'ws://localhost:8080';
+
+export const WebSocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
+    const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
-        const ws = new WebSocket('ws://localhost:8080');
+        const ws = new WebSocket(URL);
 
         ws.onopen = () => {
             console.log('WebSocket connection opened');
             setSocket(ws);
+            setIsConnected(true);
         };
 
         ws.onclose = () => {
             console.log('WebSocket connection closed');
             setSocket(null);
+            setIsConnected(false);
         };
 
         ws.onerror = (error) => {
@@ -28,14 +33,12 @@ const WebSocketProvider = ({ children }) => {
     }, []);
 
     return (
-        <WebSocketContext.Provider value={socket}>
+        <WebSocketContext.Provider value={{ socket, isConnected }}>
             {children}
         </WebSocketContext.Provider>
     );
 };
 
-const useWebSocket = () => {
+export const useWebSocket = () => {
     return useContext(WebSocketContext);
 };
-
-export { WebSocketProvider, useWebSocket };

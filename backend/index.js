@@ -1,29 +1,28 @@
 import { WebSocketServer } from 'ws';
 import { CLOSE_ROOM, CREATE_ROOM, JOIN_ROOM, START_GAME, CLICK_CELL} from './classes/messages.js';
 import { RoomManager } from './classes/roomManager.js';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const wss = new WebSocketServer({ port: 8080 });
+const PORT = process.env.PORT || 8000;
+
+const wss = new WebSocketServer({ port: PORT });
 
 const roomManager = new RoomManager();
 
 wss.on('connection', function connection(ws) {
 
-    console.log("Ws connected");
 
     ws.on('error', console.error);
 
     ws.on('message', (data) => {
         const message = JSON.parse(data.toString());
-
         if(message.type ===  CREATE_ROOM){
-            roomManager.createRoom(message.roomName, ws, message.usersName, message.email, message.mobile )
+            roomManager.createRoom( ws, message.usersName)
         }
 
         if(message.type === JOIN_ROOM){
-            roomManager.joinRoom(message.roomId, ws, message.usersName, message.email, message.mobile )
+            roomManager.joinRoom(message.roomId, ws, message.usersName)
         }
 
         if(message.type === START_GAME){
@@ -47,6 +46,4 @@ wss.on('connection', function connection(ws) {
   
 });
 
-
-mongoose.connect(process.env.MONGO_URL).then(() => console.log('Database connected successfully'))
-  .catch(err => console.error('Database connection error:', err));
+console.log(`Server started on port ${PORT}`); 
