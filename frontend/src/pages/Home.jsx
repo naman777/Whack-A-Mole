@@ -49,13 +49,13 @@ const Home = () => {
       >
         <div className='flex justify-center'>
 
-        <img src="/acm.png" alt="" className='w-[181px] h-[70px] shrink-0 mt-5'/>
+        <img src="https://acm-thapar.github.io/img/logo.png" alt="" className='w-[181px] h-[79px] shrink-0 mt-4'/>
         </div>
         <h1 className='flex justify-center text-[#343434] font-poppins text-[75px] font-bold leading-normal ' >Whack-a-mole</h1>
         <div className='flex items-center justify-center'> 
 
       <div className="w-full max-w-6xl  rounded-lg  p-2 flex flex-col md:flex-row items-center justify-between ">
-        <div className="bg-blue-500    p-8 flex flex-col items-center w-full md:w-2/5 mb-8 md:mb-0  bg-[#15a6dd]/90 text-white rounded-[20px] shadow-md">
+        <div className="  p-8 flex flex-col items-center w-full md:w-2/5 mb-8 md:mb-0  bg-[#15a6dd]/90 text-white rounded-[20px] shadow-md">
           <h2 className="text-white text-2xl mb-4 font-extrabold">Create Room</h2>
           <input
             type="text"
@@ -64,7 +64,7 @@ const Home = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <button className="bg-white text-black font-semibold py-2 px-4 rounded-md mb-4 w-full" onClick={handleCreateRoom}>
+          <button className="bg-white text-black font-bold py-2 px-4 rounded-md mb-4 w-full hover:bg-slate-200" onClick={handleCreateRoom}>
             Create Room
           </button>
           <div className="flex items-center w-full mb-4">
@@ -87,7 +87,7 @@ const Home = () => {
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
           />
-          <button className="bg-white  text-black font-bold py-2 px-4 rounded-md w-full" onClick={handleJoinRoom}>
+          <button className="bg-white  text-black font-bold py-2 px-4 rounded-md w-full hover:bg-slate-200" onClick={handleJoinRoom}>
             Join Room
           </button>
         </div>
