@@ -17,7 +17,7 @@ const GameBoard = ({ board, onTileClick,scores }) => {
     return (
         <div 
             className="relative bg-cover bg-center h-screen w-screen overflow-hidden bg-black" 
-            style={{ backgroundImage: 'url("/mario-bg.jpg")' }}
+            style={{ backgroundImage: 'url("/bg.png")' }}
         >   <div className='flex justify-start ml-5 mt-6'>
                 <Leaderboard scores={scores}/>
             </div>

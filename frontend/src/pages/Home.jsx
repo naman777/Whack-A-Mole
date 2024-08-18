@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWebSocket } from "../hooks/useSocket";
 import { Spinner } from '../components/Spinner';
-import Rules from '../components/Rules';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -43,68 +42,73 @@ const Home = () => {
   };
 
   return (
-    <div className="relative h-max w-screen bg-slate-950 ">
-      <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-      <div className="text-center pt-5 text-white">
-          <h1 className="text-7xl md:text-6xl font-bold">Whack A Mole</h1>
-        </div>
-      
-      <div className='text-white h-screen flex flex-col items-center p-4 md:flex-row md:justify-between md:p-12'>
-       
+    <div>
+      <div
+      className="h-screen bg-cover bg-center w-screen"
+      style={{ backgroundImage: 'url("/bg.png")' }}
+      >
+        <div className='flex justify-center'>
 
-        <div className='w-full max-w-lg md:w-1/3'>
-          <Rules />
+        <img src="/acm.png" alt="" className='w-[181px] h-[70px] shrink-0 mt-5'/>
         </div>
+        <h1 className='flex justify-center text-[#343434] font-poppins text-[75px] font-bold leading-normal ' >Whack-a-mole</h1>
+        <div className='flex items-center justify-center'> 
 
-        <div className="w-full max-w-lg mt-8 md:w-1/3 md:mt-0 z-20 bg-slate-950">
-          <div className="p-6 rounded-lg shadow-lg mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Create Room</h2>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 mb-4 text-black rounded-lg"
-            />
-            <button
-              className="w-full px-4 py-2 mb-4 bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md"
-              onClick={handleCreateRoom}
-            >
-              Create Room
-            </button>
+      <div className="w-full max-w-6xl  rounded-lg  p-2 flex flex-col md:flex-row items-center justify-between ">
+        <div className="bg-blue-500    p-8 flex flex-col items-center w-full md:w-2/5 mb-8 md:mb-0  bg-[#15a6dd]/90 text-white rounded-[20px] shadow-md">
+          <h2 className="text-white text-2xl mb-4 font-extrabold">Create Room</h2>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            className="w-full p-2 rounded-md mb-4 text-black"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <button className="bg-white text-black font-semibold py-2 px-4 rounded-md mb-4 w-full" onClick={handleCreateRoom}>
+            Create Room
+          </button>
+          <div className="flex items-center w-full mb-4">
+            <hr className="border-white flex-grow" />
+            <span className="mx-4 text-white">OR</span>
+            <hr className="border-white flex-grow" />
           </div>
-
-          <div className="p-6 rounded-lg shadow-lg bg-slate-950">
-            <h2 className="text-2xl font-semibold mb-4">Join Room</h2>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 mb-4 text-black rounded-lg"
-            />
-            <input
-              type="text"
-              placeholder="Enter Room ID"
-              value={roomId}
-              onChange={(e) => setRoomId(e.target.value)}
-              className="w-full px-4 py-2 mb-4 text-black rounded-lg"
-            />
-            <button
-              className="w-full px-4 py-2 mb-4 bg-green-600 hover:bg-green-700 rounded-lg shadow-md"
-              onClick={handleJoinRoom}
-            >
-              Join Room
-            </button>
-          </div>
+          <h2 className="text-white text-2xl mb-4 font-extrabold">Join Room</h2>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            className="w-full p-2 rounded-md mb-4 text-black"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Enter Room ID"
+            className="w-full p-2 rounded-md mb-4"
+            value={roomId}
+            onChange={(e) => setRoomId(e.target.value)}
+          />
+          <button className="bg-white  text-black font-bold py-2 px-4 rounded-md w-full" onClick={handleJoinRoom}>
+            Join Room
+          </button>
         </div>
+        <div className="bg-white  p-8 w-full md:w-2/5 bg-white/90 rounded-[20px] shadow-md">
+          <h2 className="text-gray-800 text-4xl font-extrabold  pb-6">Rules</h2>
+          <ul className="list-disc list-inside text-gray-700">
+            <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid ullam praesentium accusantium optio eius cumque dicta fuga eaque magni? Hic.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, officia? Modi amet ipsa ullam voluptas eius accusantium quia facere libero?.</li>
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas deleniti dolorem, enim doloremque illo illum.</li>
+            <li>Nullam pretium ante sit amet urna dapibus varius. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe velit expedita commodi explicabo nostrum alias.</li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  </div>
 
-        {!isConnected && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      {!isConnected && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <Spinner />
           </div>
         )}
-      </div>
     </div>
   );
 };
