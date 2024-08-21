@@ -83,7 +83,7 @@ const Home = () => {
           <input
             type="text"
             placeholder="Enter Room ID"
-            className="border-2 w-full p-2 rounded-md mb-4"
+            className="border-2 w-full p-2 rounded-md mb-4 text-black"
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
           />
