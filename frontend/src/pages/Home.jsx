@@ -45,26 +45,26 @@ const Home = () => {
     <div>
       <div
       className="h-screen bg-cover bg-center w-screen"
-      style={{ backgroundImage: 'url("/bg.png")' }}
+      style={{ backgroundImage: 'url("/bgimg.png")' }}
       >
         <div className='flex justify-center'>
 
         <img src="https://acm-thapar.github.io/img/logo.png" alt="" className='w-[181px] h-[79px] shrink-0 mt-4'/>
         </div>
-        <h1 className='flex justify-center text-[#343434] font-poppins text-[75px] font-bold leading-normal ' >Whack-a-mole</h1>
+        <h1 className='flex justify-center text-[#343434] font-poppins text-[75px] font-bold leading-normal drop-shadow-lg' >Whack-a-mole</h1>
         <div className='flex items-center justify-center'> 
 
-      <div className="w-full max-w-6xl  rounded-lg  p-2 flex flex-col md:flex-row items-center justify-between ">
-        <div className="  p-8 flex flex-col items-center w-full md:w-2/5 mb-8 md:mb-0  bg-[#15a6dd]/90 text-white rounded-[20px] shadow-md">
+      <div className="w-full max-w-7xl rounded-lg  p-2 flex flex-col md:flex-row items-stretch justify-between gap-20 ">
+        <div className="min-h-full opacity-90 p-8 flex flex-col items-center w-full md:w-2/5 mb-8 md:mb-0  bg-[#15a6dd]/90 font-poppins text-white rounded-[20px] shadow-md">
           <h2 className="text-white text-2xl mb-4 font-extrabold">Create Room</h2>
           <input
             type="text"
             placeholder="Enter Username"
-            className="w-full p-2 rounded-md mb-4 text-black"
+            className="border-2 w-full p-2 rounded-md mb-4 text-black"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <button className="bg-white text-black font-bold py-2 px-4 rounded-md mb-4 w-full hover:bg-slate-200" onClick={handleCreateRoom}>
+          <button className="bg-white text-black font-bold py-2 px-4 rounded-md mb-4 w-full hover:bg-slate-200 drop-shadow-lg" onClick={handleCreateRoom}>
             Create Room
           </button>
           <div className="flex items-center w-full mb-4">
@@ -76,28 +76,30 @@ const Home = () => {
           <input
             type="text"
             placeholder="Enter Username"
-            className="w-full p-2 rounded-md mb-4 text-black"
+            className="border-2 w-full p-2 rounded-md mb-4 text-black"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <input
             type="text"
             placeholder="Enter Room ID"
-            className="w-full p-2 rounded-md mb-4"
+            className="border-2 w-full p-2 rounded-md mb-4"
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
           />
-          <button className="bg-white  text-black font-bold py-2 px-4 rounded-md w-full hover:bg-slate-200" onClick={handleJoinRoom}>
+          <button className="bg-white  text-black font-bold py-2 px-4 rounded-md w-full hover:bg-slate-200 drop-shadow-lg" onClick={handleJoinRoom}>
             Join Room
           </button>
         </div>
-        <div className="bg-white  p-8 w-full md:w-2/5 bg-white/90 rounded-[20px] shadow-md">
+        <div className="flex-[1.8] min-h-full opacity-90 bg-white  px-12 py-8 w-auto md:w-2/5 bg-white/90 rounded-[20px] font-poppins shadow-md">
           <h2 className="text-gray-800 text-4xl font-extrabold  pb-6">Rules</h2>
-          <ul className="list-disc list-inside text-gray-700">
-            <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid ullam praesentium accusantium optio eius cumque dicta fuga eaque magni? Hic.</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, officia? Modi amet ipsa ullam voluptas eius accusantium quia facere libero?.</li>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas deleniti dolorem, enim doloremque illo illum.</li>
-            <li>Nullam pretium ante sit amet urna dapibus varius. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe velit expedita commodi explicabo nostrum alias.</li>
+          <ul className="list-disc list-inside text-2xl text-gray-700 inline-block w-full">
+            <li>The game lasts 1 minute—click moles to earn <b>+10</b> points.</li>
+            <li>Only the first player to click a mole earns points.</li>
+            <li>Clicking on an empty spot will deduct <b>5</b> points.</li>
+            <li>Clicking on cacti will deduct 20 points.</li>
+            <li>The player with the highest score at the end wins.</li>
+            <li>Enjoy!</li>
           </ul>
         </div>
       </div>
