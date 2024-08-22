@@ -16,7 +16,7 @@ const GameBoard = ({ board, onTileClick, scores }) => {
 
     return (
         <div 
-            className="relative bg-cover bg-center h-screen w-screen overflow-hidden bg-black" 
+            className="relative bg-cover bg-center h-screen w-screen overflow-hidden bg-blue-400" 
             style={{ backgroundImage: 'url("/bg.png")' }}
         >   
             <div className='flex justify-start ml-5 mt-6'>

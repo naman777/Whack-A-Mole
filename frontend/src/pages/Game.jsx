@@ -103,14 +103,14 @@ const Game = () => {
     };
 
     return (
-        <div className='bg-black min-h-screen flex flex-col overflow-hidden'>
+        <div className='bg-blue-300 min-h-screen flex flex-col overflow-hidden'>
             <Navbar
                 roomId={roomId}
                 userPoints={score}
                 onStartGame={onStartGame}
                 timeLeft={timeLeft}
             />
-            <div className='w-96 h-96'>
+            <div className='w-96 h-96 bg-blue-300'>
                 <GameBoard
                     board={board}
                     onTileClick={handleTileClick}
