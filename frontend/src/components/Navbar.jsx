@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Navbar = ({ roomId, userPoints, timeLeft, onStartGame }) => {
     const [showToast, setShowToast] = useState('');
-    
+
     const copyRoomId = () => {
         navigator.clipboard.writeText(roomId);
         setShowToast('Room ID copied to clipboard!');
@@ -16,28 +16,28 @@ const Navbar = ({ roomId, userPoints, timeLeft, onStartGame }) => {
     };
 
     return (
-        <nav className="bg-gray-800 text-white p-4 flex justify-between items-center relative">
-            <div className="text-3xl italic font-extrabold">
+        <nav className="bg-gray-800 text-white p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0 relative">
+            <div className="text-xl sm:text-3xl italic font-extrabold text-center sm:text-left">
                 Whack A Mole
             </div>
             <div className="flex-grow flex items-center justify-center space-x-4">
-                <div className="bg-green-700 p-2 rounded-lg text-xl font-semibold">
+                <div className="bg-green-700 p-2 rounded-lg text-sm sm:text-xl font-semibold">
                     {userPoints} Points
                 </div>
-                <div className="bg-red-600 p-2 rounded-lg text-xl font-semibold">
+                <div className="bg-red-600 p-2 rounded-lg text-sm sm:text-xl font-semibold">
                     Time Left: {timeLeft}s
                 </div>
             </div>
-            <div className="flex space-x-4">
+            <div className="flex space-x-2 sm:space-x-4 justify-center sm:justify-end">
                 <button 
                     onClick={copyRoomId} 
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    className="bg-blue-500 hover:bg-blue-600 text-white text-sm sm:text-base px-3 py-1 sm:px-4 sm:py-2 rounded"
                 >
                     Copy Room ID
                 </button>
                 <button 
                     onClick={startGame} 
-                    className="bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded"
+                    className="bg-green-600 hover:bg-green-800 text-white text-sm sm:text-base px-3 py-1 sm:px-4 sm:py-2 rounded"
                 >
                     Start Game
                 </button>
@@ -45,7 +45,7 @@ const Navbar = ({ roomId, userPoints, timeLeft, onStartGame }) => {
 
             {/* Toast notification */}
             {showToast && (
-                <div className="absolute  right-4 bg-gray-700 text-white p-2 rounded-md shadow-md">
+                <div className="absolute right-4 top-16 sm:top-auto bg-gray-700 text-white p-2 rounded-md shadow-md">
                     {showToast}
                 </div>
             )}
