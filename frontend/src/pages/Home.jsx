@@ -29,7 +29,7 @@ const Home = () => {
 
   const handleJoinRoom = () => {
     if (jname && roomId) {
-        socket?.send(jJSON.stringify({ type: 'join_room', usersName: jname, roomId }));
+        socket?.send(JSON.stringify({ type: 'join_room', usersName: jname, roomId }));
         localStorage.setItem("name", jname);
         socket.onmessage  = (event) => {
           const message = JSON.parse(event.data);
