@@ -6,15 +6,16 @@ import { Spinner } from '../components/Spinner';
 const Home = () => {
   const navigate = useNavigate();
   
-  const [name, setName] = useState('');
+  const [cname, setName] = useState('');
+  const [jname, setJName] = useState('');
   const [roomId, setRoomId] = useState('');
 
   const { socket, isConnected } = useWebSocket();
 
   const handleCreateRoom = () => {
-    if (name) {
-        socket?.send(JSON.stringify({ type: 'create_room', usersName: name }));
-        localStorage.setItem("name", name);
+    if (cname) {
+        socket?.send(JSON.stringify({ type: 'create_room', usersName: cname }));
+        localStorage.setItem("name", cname);
         socket.onmessage  = (event) => {
             const message = JSON.parse(event.data);
             if (message.type === "room_joined") {
@@ -27,14 +28,14 @@ const Home = () => {
   };
 
   const handleJoinRoom = () => {
-    if (name && roomId) {
-        socket?.send(JSON.stringify({ type: 'join_room', usersName: name, roomId }));
-        localStorage.setItem("name", name);
+    if (jname && roomId) {
+        socket?.send(jJSON.stringify({ type: 'join_room', usersName: jname, roomId }));
+        localStorage.setItem("name", jname);
         socket.onmessage  = (event) => {
-            const message = JSON.parse(event.data);
-            if (message.type === "room_joined") {
-                navigate(`/room/${message.roomId}`);
-            }
+          const message = JSON.parse(event.data);
+          if (message.type === "room_joined") {
+              navigate(`/room/${message.roomId}`);
+          }
         };
     } else {
         alert("Please enter your name and room ID to join a room.");
@@ -61,7 +62,7 @@ const Home = () => {
             type="text"
             placeholder="Enter Username"
             className="border-2 w-full p-2 rounded-md mb-4 text-black"
-            value={name}
+            value={cname}
             onChange={(e) => setName(e.target.value)}
           />
           <button className="bg-white text-black font-bold py-2 px-4 rounded-md mb-4 w-full hover:bg-slate-200 drop-shadow-lg" onClick={handleCreateRoom}>
@@ -77,8 +78,8 @@ const Home = () => {
             type="text"
             placeholder="Enter Username"
             className="border-2 w-full p-2 rounded-md mb-4 text-black"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={jname}
+            onChange={(e) => setJName(e.target.value)}
           />
           <input
             type="text"

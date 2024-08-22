@@ -3,7 +3,7 @@ import GameBoard from './gameBoard.js';
 
 export class Room {
     constructor( socket, userName) {
-        this.id = uuidv4();
+        this.id = uuidv4().slice(0, 5);
         this.users = [];
         this.usersName = [];
         this.scores = [];  // Change scores to an array of objects
