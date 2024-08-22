@@ -34,7 +34,12 @@ const GameBoard = ({ board, onTileClick, scores }) => {
             </motion.h1>
             
             <div className="absolute inset-0 flex justify-center items-center mb-12 mt-4">
-                <div className="grid grid-cols-3 gap-2 bg-cover bg-center rounded-lg pb-12 border-white sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" style={{ backgroundImage: 'url("/soil.png")' }}>
+                <div 
+                    className="
+                        grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-2 
+                        bg-cover bg-center rounded-lg pb-12 border-white"
+                    style={{ backgroundImage: 'url("/soil.png")' }}
+                >
                     {board.map((row, rowIndex) =>
                         row.map((cell, colIndex) => (
                             <motion.div
